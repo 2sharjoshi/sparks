@@ -8,6 +8,6 @@ end
 
 guard 'shell' do
   watch (/(^lib\/.+)|(^app\/.+)/) do
-    command('bin/rake')
+    command('rake') #for windows when you have set PATH with "RubyIstallation folder"/bin
   end
 end
