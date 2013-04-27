@@ -9610,6 +9610,12 @@ window["breadboardView"] = {
       property: "resistance",
       initialValue: 100
     },
+    diode: {
+      image: "common/images/diode.png",
+      imageWidth: 108,
+      property: "resistance",
+      initialValue: 100
+    },
     capacitor: {
       image: "common/images/capacitor.png",
       imageWidth: 48,
@@ -12092,6 +12098,44 @@ window["breadboardView"] = {
 })();
 
 
+/*global sparks */
+
+/* FILE Diode.js */
+
+
+(function () {
+
+    var circuit = sparks.circuit;
+
+    circuit.Diode = function (props, breadBoard) {
+      sparks.circuit.Resistor.parentConstructor.call(this, props, breadBoard);
+      var superclass = sparks.circuit.VariableResistor.uber;
+      superclass.init.apply(this, [props.UID]);
+      this.resistance = this.Resistance;
+    };
+
+    sparks.extend(circuit.Diode, circuit.Resistor, {
+
+      getMinResistance: function() {
+        return this.minimumResistance;
+      },
+
+      getMaxResistance: function() {          
+        return this.maximumResistance;
+      },
+
+      scaleResistance: function(value) {
+        var perc = value / 10,       // values are 0-10
+            range = this.maximumResistance - this.minimumResistance,
+            newValue = this.minimumResistance + (range * perc);
+        this.resistance = newValue;
+      }
+
+    });
+
+})();
+
+
 
 
 /* FILE breadboard.js */
@@ -12239,6 +12283,9 @@ window["breadboardView"] = {
           }
           if (props.kind === "variable resistor"){
             return new sparks.circuit.VariableResistor(props, breadBoard);
+          }
+          if (props.kind === "diode"){
+            return new sparks.circuit.Diode(props, breadBoard);
           }
           if (props.kind === 'inductor') {
             return new sparks.circuit.Inductor(props, breadBoard);
@@ -12476,7 +12523,8 @@ window["breadboardView"] = {
                 resistor: 6,
                 inductor: 5,
                 capacitor: 3,
-                wire: 3
+                wire: 3,
+                diode:6
               },
               yValue = {
                 left_positive: 1,

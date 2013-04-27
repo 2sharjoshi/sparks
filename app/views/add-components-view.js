@@ -11,6 +11,12 @@
       property: "resistance",
       initialValue: 100
     },
+    diode: {
+      image: "common/images/diode.png",
+      imageWidth: 108,
+      property: "resistance",
+      initialValue: 100
+    },
     capacitor: {
       image: "common/images/capacitor.png",
       imageWidth: 48,

@@ -1,7 +1,7 @@
 //= require circuit/resistor
 //= require circuit/variable-resistor
 //= require circuit/component
-
+//= require circuit/Diode
 /* FILE breadboard.js */
 
 /*global sparks CiSo $ breadBoard window console*/
@@ -146,6 +146,9 @@
           }
           if (props.kind === "variable resistor"){
             return new sparks.circuit.VariableResistor(props, breadBoard);
+          }
+          if (props.kind === "diode"){
+            return new sparks.circuit.Diode(props, breadBoard);
           }
           if (props.kind === 'inductor') {
             return new sparks.circuit.Inductor(props, breadBoard);
@@ -383,7 +386,8 @@
                 resistor: 6,
                 inductor: 5,
                 capacitor: 3,
-                wire: 3
+                wire: 3,
+                diode:6
               },
               yValue = {
                 left_positive: 1,

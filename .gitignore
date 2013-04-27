@@ -10,3 +10,4 @@ proxy/apache.pid
 proxy/apache-error.log
 tests/jspec/test-reports/*
 tests/jspec/reports/*
+/nbproject/
