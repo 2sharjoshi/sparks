@@ -18,7 +18,7 @@ here: http://concord-consortium.github.io/sparks-activities/
 
 The following will start up a local server using rack running on port 9292 (after installing the development dependencies listed below):
 
-  bin/rackup server.ru
+  bin/rackup server.ru #in windows just use "rackup server.ru"(for windows you first setup PATH system variable to "RubyInstallationFolder"/Bin)
 
 You can then open the index page here: http://localhost:9292/index.html
 
@@ -42,7 +42,7 @@ Sparks uses the Ruby gem Sprockets (http://getsprockets.org) to manage the javas
 The build system has been tested on Ruby 1.8.7 and 1.9.3.
 
 We use [RVM](https://rvm.io/rvm/install/) to install and manage different versions of Ruby and sets of Ruby gems used in different projects.
-
+(For windows use pik [https://github.com/vertiginous/pik] Setting up will be easier with msi installer)
 In the instructions below I assume Ruby 1.9.3 is being used:
 
 Setup rvm to use Ruby 1.9.3 and a gemset named sparks.
@@ -59,7 +59,7 @@ Install bundler and the necessary gems
 
 Build using sprockets, from top folder
 
- bin/rake
+ bin/rake #rake (in windows case)
 
 "rake" will need to be called each time a Javascript file is changed ... unless you use Guard (see next sections).
 
@@ -68,7 +68,7 @@ Build using sprockets, from top folder
 Start [Guard](https://github.com/guard/guard) to automatically build client-breadboard-activity.js
 whenever changes are made to the files in app/ or lib/
 
-  bin/guard
+  bin/guard #guard (in windows case)
 
 == Running the tests
 
