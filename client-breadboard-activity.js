@@ -7803,7 +7803,8 @@ window["breadboardView"] = {
         compWidth  = rect.width,
         compHeight = rect.height,
         tipWidth   = $tipPane.width(),
-        yOffset    = 50,
+        yOffset,
+        left,
         tipHeight,
         $tooltip;
 
@@ -7816,11 +7817,14 @@ window["breadboardView"] = {
       $("<div class='speech-bubble'>").append($tipPane)
     );
 
-    $tooltip.css({
-      position: "absolute",
-      left:     pos.left - (tipWidth/2) + (compWidth*0.4),
-      zIndex:   1000
-    });
+          // FIXME: We need a better cross-browser solution for this
+              if(typeof InstallTrigger !== 'undefined'){    // Firefox
+                yOffset = 180;
+                left = pos.left - (2.5*tipWidth)+ (compWidth*0.4);
+              } else {
+                yOffset = 50;
+                left = pos.left - (tipWidth/2)+ (compWidth*0.4);
+              }
 
 
     this.holder.append($tooltip);
@@ -7828,8 +7832,11 @@ window["breadboardView"] = {
     tipHeight = $tipPane.height();
 
     $tooltip.css({
+      position: "absolute",
+      left:     left,
       top:      pos.top - tipHeight - yOffset,
-      height:   tipHeight + compHeight + yOffset
+      height:   tipHeight + compHeight + yOffset,
+      zIndex:   1000
     });
 
     // delete on mouseout
@@ -10472,7 +10479,8 @@ window["breadboardView"] = {
             callback();
           }
         } else {
-          sparks.couchDS.loadActivity(jsonSection, function(jsonSection) {
+            sectionName = sparks.activity_base_url + jsonSection + ".json";
+            $.get(sectionName, function(jsonSection) {
             self.addSection(jsonSection, i);
             totalCreated++;
             if (totalCreated == activity.sections.length){
@@ -12109,7 +12117,7 @@ window["breadboardView"] = {
 
     circuit.Diode = function (props, breadBoard) {
       sparks.circuit.Resistor.parentConstructor.call(this, props, breadBoard);
-      var superclass = sparks.circuit.VariableResistor.uber;
+      var superclass = sparks.circuit.Diode.uber;
       superclass.init.apply(this, [props.UID]);
       this.resistance = this.Resistance;
     };
@@ -12466,7 +12474,8 @@ window["breadboardView"] = {
 
           // update view
           if (sparks.breadboardView) {
-            sparks.breadboardView.addComponent(newComponent.getViewArguments());
+              if (newComponent.getViewArguments && newComponent.hasValidConnections() && newComponent.kind !== "battery")
+                  sparks.breadboardView.addComponent(newComponent.getViewArguments());
           }
 
           return newComponent.UID;
@@ -14784,6 +14793,7 @@ sparks.GAHelper.userVisitedTutorial = function (tutorialId) {
 
 
 })();
+
 
 
 
